@@ -14,16 +14,6 @@ Session(app)
 
 DATABASE = 'expenses.db'
 
-# create database and table if not exists
-def init_db():
-    with sqlite3.connect(DATABASE) as conn:
-        cursor = conn.cursor()
-        cursor.execute(
-            'CREATE TABLE IF NOT EXISTS expense (id INTEGER, category TEXT NOT NULL, amount REAL NOT NULL, date TEXT NOT NULL)')
-
-# Call init_db once at startup
-init_db()
-
 # home route
 @app.route('/')
 @login_required
