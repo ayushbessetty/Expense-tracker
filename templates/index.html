@@ -1,0 +1,90 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Expense Calculator
+{% endblock %}
+
+{% block body %}
+<div class="body">
+    <div class="container">
+        <h1>
+            Expense Tracker
+        </h1>
+
+        <!-- add expense form -->
+        <form class="exp_form" method="POST" action="/add">
+            <input class="i" autocomplete=off autofocus type="text" name="category" placeholder="Category" required>
+            <input class="i" type="number" step="0.01" name="amount" placeholder="Amount" min=0 required>
+            <input class="i" type="date" name="date" required>
+            <button class="b" type="submit">Add Expense</button>
+        </form>
+
+        <!-- expense list -->
+         <h2> Total: Rs.{{ total }}</h2>
+         <table>
+            <tr>
+                <th>Category</th>
+                <th>Amount (Rs.)</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+            {% for expense in expenses %}
+            <tr>
+                <td>{{ expense[3] }}</td>
+                <td>Rs. {{ expense[1] }}</td>
+                <td>{{ expense[2] }}</td>
+                <td>
+                    <form method="POST" action="/delete">
+                        <input type="hidden" name="date" value="{{ expense[2] }}">
+                        <input type="hidden" name="amount" value="{{ expense[1] }}">
+                        <button  class = "b" type="submit" name="category" value="{{expense[3]}}">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+         </table>
+         <!-- Add below your table in index.html -->
+            <h2 style="margin-top:30px;">Spending by Category</h2>
+            <canvas id="categoryChart" width="400" height="400"></canvas>
+            <script>
+                const ctx = document.getElementById('categoryChart').getContext('2d');
+                const categoryChart = new Chart(ctx, {
+                    type: 'pie',
+                        data: {
+                            labels: {{ categories|tojson }},
+                            datasets: [{
+                                label: 'Spending by Category',
+                                data: {{ amounts|tojson }},
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.6)',
+                                    'rgba(54, 162, 235, 0.6)',
+                                    'rgba(255, 206, 86, 0.6)',
+                                    'rgba(75, 192, 192, 0.6)',
+                                    'rgba(153, 102, 255, 0.6)',
+                                    'rgba(255, 159, 64, 0.6)'
+                                ], borderColor: [
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)'
+                                        ],
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: {
+                                        legend: { position: 'top' },
+                                        title: {
+                                            display: true,
+                                            text: 'Spending by Category'
+                                        }
+                                    }
+                                }
+                            });
+            </script> 
+        </div> 
+</div>
+{% endblock %}
