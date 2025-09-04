@@ -10,3 +10,12 @@ Search and Analytics: Users can filter expenses by date range and view summarize
 Simple Storage: Uses a local SQLite database (expenses.db) for data storage.
 
 Web Interface: Clean web pages for login, registration, dashboard, and search results using Flask templates
+
+Technical Stack
+Backend: Flask framework with Flask-Session for session management.
+
+Database: SQLite for storing user credentials and expenses.
+
+Security: Passwords are securely hashed using Werkzeug utilities.
+
+Dependencies: Relies on Flask, Flask-Session, cs50, requests, and pytz libraries
