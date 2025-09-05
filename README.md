@@ -20,3 +20,4 @@ Database: SQLite for storing user credentials and expenses.
 Security: Passwords are securely hashed using Werkzeug utilities.
 
 Dependencies: Relies on Flask, Flask-Session, cs50, requests, and pytz libraries
+<img width="1857" height="657" alt="login" src="https://github.com/user-attachments/assets/e4abd6f0-4700-4489-9d39-bfe520c53a23" />
