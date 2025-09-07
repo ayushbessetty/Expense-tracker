@@ -88,7 +88,7 @@ def login():
         username = request.form['username']
         if not username:
             return render_template('login.html', error="Please enter username.")
-
+        
         password = request.form['password']
         if not password:
             return render_template('login.html', error="Please enter password.")
@@ -99,7 +99,6 @@ def login():
             cursor = conn.cursor()
             cursor.execute("SELECT * FROM users WHERE username = ?",(username,))
             rows = cursor.fetchall()
-        print(rows)
         if not rows or not check_password_hash(rows[0][2], password):
             return render_template('login.html', error="Invalid username or password.")
         # remember user session
@@ -121,6 +120,17 @@ def register():
         username = request.form['username']
         if not username:
             return render_template('register.html', error="Please enter username.")
+
+
+        with sqlite3.connect(DATABASE) as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT username FROM users where username = ?", (username,))
+            user = cursor.fetchall()
+        print(user)
+
+        if user:    
+            return render_template('register.html', error="Username already taken.")
+
 
         password = request.form['password']
         if not password:
